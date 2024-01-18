@@ -1,7 +1,9 @@
-import { g, auth, config } from '@grafbase/sdk'
+import { graph, config } from '@grafbase/sdk'
 
-const User = g.model('User', {
-  name: g.string().length({min: 2, max:2}),
+const g = graph.Standalone()
+
+const User = g.type('User', {
+  name: g.string().length({ min: 2, max:2 }),
   email: g.string().unique(),
   avatarUrl: g.url(),
   description: g.string(),
@@ -10,7 +12,7 @@ const User = g.model('User', {
   projects: g.relation(() => Project).list().optional,
 })
 
-const Project = g.model('Project', {
+const Project = g.type('Project', {
   title: g.string().length({ min: 3 }),
   description: g.string(),
   image: g.url(),
@@ -21,5 +23,5 @@ const Project = g.model('Project', {
 })
 
 export default config({
-  schema: g,
+  graph: g,
 })
